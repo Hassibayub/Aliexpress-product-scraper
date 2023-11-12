@@ -2,8 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import json
-import variants
-import feedback
+from . import variants
+from . import feedback
 from pprint import pprint
 
 
@@ -89,6 +89,3 @@ def AliexpressProductScraper(productId, feedbackLimit=None):
 
     return result
 
-
-if __name__ == '__main__':
-    print(AliexpressProductScraper('1005006201952621', 10))
