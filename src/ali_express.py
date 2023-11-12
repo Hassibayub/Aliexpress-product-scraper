@@ -24,6 +24,7 @@ def AliexpressProductScraper(productId, feedbackLimit=None):
     options = Options()
     options.add_argument("--headless")
     browser = webdriver.Chrome(options=options)
+    browser.implicitly_wait(30)
 
     # Scrape aliexpress product page for details
     browser.get(f"https://www.aliexpress.com/item/{productId}.html")
