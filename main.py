@@ -2,12 +2,25 @@ from src.ali_express import AliexpressProductScraper
 from src.downloader import download_images, download_video
 import json
 import os
+from tqdm import tqdm
 
+import warnings
+warnings.filterwarnings("ignore")
 
 def main():
-    product_ids = ["1005006201952621"]
+    product_ids = [
+        "1005006201952621",
+        "1005004296451787",
+        "1005005803345295",
+        "1005005464256654",
+        "1005002868900255",
+        "1005005803345295",
+        "1005005071325944",
+        "1005003312145150" # this has video
+        "1005005894835239"
+        ]
     
-    for product_id in product_ids:
+    for product_id in tqdm(product_ids, desc="Fetching products..."):
         result, data = AliexpressProductScraper(product_id, 10)
 
         download_images(result["images"], product_id)

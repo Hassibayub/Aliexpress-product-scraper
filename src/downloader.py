@@ -2,6 +2,9 @@ import requests
 import os
 import re
 
+import warnings
+warnings.filterwarnings("ignore")
+
 def download_images(images, product_id, is_desc=False):
     
     if is_desc:
