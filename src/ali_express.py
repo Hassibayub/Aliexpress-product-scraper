@@ -5,9 +5,19 @@ import json
 from . import variants
 from . import feedback
 from pprint import pprint
+import os
 
+
+def create_dir(productId):
+    if not os.path.exists('outputs'):
+        os.makedirs('outputs', exist_ok=True)
+    
+    productId_dir = os.path.join('outputs', productId)
+    if not os.path.exists(productId_dir):
+        os.makedirs(productId_dir)
 
 def AliexpressProductScraper(productId, feedbackLimit=None):
+    create_dir(productId)
     FEEDBACK_LIMIT = feedbackLimit or 10
 
     options = Options()
@@ -27,7 +37,7 @@ def AliexpressProductScraper(productId, feedbackLimit=None):
     descriptionUrl = data['productDescComponent']['descriptionUrl']
     browser.get(descriptionUrl)
     descriptionPageHtml = browser.page_source
-
+    
     # Build the AST for the description page html content using BeautifulSoup
     soup = BeautifulSoup(descriptionPageHtml, 'html.parser')
     descriptionData = str(soup.body)
@@ -72,7 +82,7 @@ def AliexpressProductScraper(productId, feedbackLimit=None):
             'twoStarCount': data['feedbackComponent']['twoStarNum'] if 'twoStarNum' in data['feedbackComponent'] else None,
             'oneStarCount': data['feedbackComponent']['oneStarNum'] if 'oneStarNum' in data['feedbackComponent'] else None
         },
-        'images': data['imageModule']['imagePathList'] if ('imageModule' in data and 'imagePathList' in data['imageModule']) else [],
+        'images': data['imageComponent']['imagePathList'] if ('imageComponent' in data and 'imagePathList' in data['imageComponent']) else [],
         'feedback': feedbackData,
         'variants': variants.get(data['priceComponent']['skuPriceList']),
         'specs': data['productPropComponent']['props'],
