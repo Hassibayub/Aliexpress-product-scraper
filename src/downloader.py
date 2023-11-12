@@ -17,3 +17,17 @@ def download_images(images, product_id, is_desc=False):
             image_path = os.path.join("outputs", product_id, f"{product_id}_{i}.jpg")
             with open(image_path, "wb") as f:
                 f.write(requests.get(image).content)
+
+
+def download_video(url, product_id):
+    try:
+        save_path = os.path.join("outputs", product_id, f"video.mp4")
+        with requests.get(url, stream=True,verify=False) as response:
+            response.raise_for_status()
+            with open(save_path, 'wb') as file:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        file.write(chunk)
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading video: {e}")
+

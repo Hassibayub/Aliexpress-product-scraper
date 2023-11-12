@@ -130,4 +130,4 @@ def AliexpressProductScraper(productId, feedbackLimit=None):
         },
     }
 
-    return result
+    return result, data

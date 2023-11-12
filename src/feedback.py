@@ -11,6 +11,7 @@ def getFeedbackData(feedbackHtml):
         name = element.select_one(".user-name").text.strip()
         country = element.select_one(".user-country").text.strip()
         ratingStyle = element.select_one(".star-view > span")["style"]
+        ratingStyle = ratingStyle.replace("%", "")
         rating = int(ratingStyle.split("width:")[1]) / 20
 
         info = {}
